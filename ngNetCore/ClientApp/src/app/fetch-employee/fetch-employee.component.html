@@ -1,0 +1,50 @@
+<h1>Employee Data</h1>
+
+<p>This component demonstrates fetching Employee data from the server.</p>
+<p *ngIf="!employees"><em>Loading...</em></p>
+
+<div>
+  <button class="btn btn-primary" [routerLink]="['/register-employee']">
+    <span><i class="fa fa-user-plus" aria-hidden="true"></i></span> Add new
+    employee
+  </button>
+</div>
+
+<br />
+<table class="table">
+  <thead>
+    <tr>
+      <th>EmployeeId</th>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>Department</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let employee of employees">
+      <td>{{ employee.employeeId }}</td>
+      <td>{{ employee.name }}</td>
+      <td>{{ employee.gender }}</td>
+      <td>{{ employee.department }}</td>
+      <td>{{ employee.city }}</td>
+      <td></td>
+      <td>
+        <button
+          class="btn btn-outline-dark"
+          [routerLink]="['/employee/edit/', employee.employeeId]"
+        >
+          <span><i class="fa fa-pencil" aria-hidden="true"></i></span>
+          Edit
+        </button>
+        <button
+          class="btn btn-outline-danger"
+          (click)="delete(employee.employeeId)"
+        >
+          <span><i class="fa fa-trash" aria-hidden="true"></i></span>
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
