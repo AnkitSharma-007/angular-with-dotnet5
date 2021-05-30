@@ -27,13 +27,12 @@ namespace ngNetCore.DataAccess
             }
         }
 
-        public int AddEmployee(Employee employee)
+        public void AddEmployee(Employee employee)
         {
             try
             {
                 db.Employees.Add(employee);
                 db.SaveChanges();
-                return 1;
             }
             catch
             {
@@ -41,14 +40,12 @@ namespace ngNetCore.DataAccess
             }
         }
 
-        public int UpdateEmployee(Employee employee)
+        public void UpdateEmployee(Employee employee)
         {
             try
             {
                 db.Entry(employee).State = EntityState.Modified;
                 db.SaveChanges();
-
-                return 1;
             }
             catch
             {
@@ -56,11 +53,11 @@ namespace ngNetCore.DataAccess
             }
         }
 
-        public Employee GetEmployeeData(int id)
+        public Employee GetEmployeeData(int employeeId)
         {
             try
             {
-                Employee employee = db.Employees.Find(id);
+                Employee employee = db.Employees.Find(employeeId);
                 return employee;
             }
             catch
@@ -69,14 +66,14 @@ namespace ngNetCore.DataAccess
             }
         }
 
-        public int DeleteEmployee(int id)
+        public void DeleteEmployee(int employeeId)
         {
             try
             {
-                Employee emp = db.Employees.Find(id);
+                Employee emp = db.Employees.Find(employeeId);
                 db.Employees.Remove(emp);
                 db.SaveChanges();
-                return 1;
+
             }
             catch
             {

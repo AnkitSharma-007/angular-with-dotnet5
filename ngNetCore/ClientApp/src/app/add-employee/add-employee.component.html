@@ -8,13 +8,10 @@
     <div class="col-md-4">
       <input class="form-control" type="text" formControlName="name" />
     </div>
-    <span
-      class="text-danger"
-      *ngIf="
+    <span class="text-danger" *ngIf="
         (registerFormControl.name.touched || submitted) &&
         registerFormControl.name.errors?.required
-      "
-    >
+      ">
       Name is required.
     </span>
   </div>
@@ -28,13 +25,10 @@
         <option value="Female">Female</option>
       </select>
     </div>
-    <span
-      class="text-danger"
-      *ngIf="
+    <span class="text-danger" *ngIf="
         (registerFormControl.gender.touched || submitted) &&
         registerFormControl.gender.errors?.required
-      "
-    >
+      ">
       Gender is required
     </span>
   </div>
@@ -44,13 +38,10 @@
     <div class="col-md-4">
       <input class="form-control" type="text" formControlName="department" />
     </div>
-    <span
-      class="text-danger"
-      *ngIf="
+    <span class="text-danger" *ngIf="
         (registerFormControl.department.touched || submitted) &&
         registerFormControl.department.errors?.required
-      "
-    >
+      ">
       Department is required
     </span>
   </div>
@@ -60,18 +51,15 @@
     <div class="col-md-4">
       <select class="form-control" data-val="true" formControlName="city">
         <option value="">--Select City--</option>
-        <option *ngFor="let city of cityList" value="{{ city.cityName }}">
+        <option *ngFor="let city of cityList$ | async" value="{{ city.cityName }}">
           {{ city.cityName }}
         </option>
       </select>
     </div>
-    <span
-      class="text-danger"
-      *ngIf="
+    <span class="text-danger" *ngIf="
         (registerFormControl.city.touched || submitted) &&
         registerFormControl.city.errors?.required
-      "
-    >
+      ">
       City is required
     </span>
   </div>

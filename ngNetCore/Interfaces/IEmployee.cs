@@ -6,10 +6,10 @@ namespace ngNetCore.Interfaces
     public interface IEmployee
     {
         IEnumerable<Employee> GetAllEmployees();
-        int AddEmployee(Employee employee);
-        int UpdateEmployee(Employee employee);
-        Employee GetEmployeeData(int id);
-        int DeleteEmployee(int id);
+        void AddEmployee(Employee employee);
+        void UpdateEmployee(Employee employee);
+        Employee GetEmployeeData(int employeeId);
+        void DeleteEmployee(int employeeId);
         List<City> GetCities();
     }
 }

@@ -26,7 +26,7 @@ import { HomeComponent } from './home/home.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'fetch-employee', component: FetchEmployeeComponent },
       { path: 'register-employee', component: AddEmployeeComponent },
-      { path: 'employee/edit/:id', component: AddEmployeeComponent },
+      { path: 'employee/edit/:employeeId', component: AddEmployeeComponent },
     ]),
   ],
   providers: [],

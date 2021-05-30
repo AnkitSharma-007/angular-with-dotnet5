@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { City } from '../models/city';
 import { Employee } from '../models/employee';
 import { EmployeeService } from '../services/employee.service';
@@ -15,8 +17,9 @@ export class AddEmployeeComponent implements OnInit {
   title = 'Create';
   employeeId: number;
   errorMessage: any;
-  cityList: City[];
   submitted = false;
+
+  cityList$: Observable<City[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -24,9 +27,7 @@ export class AddEmployeeComponent implements OnInit {
     private employeeService: EmployeeService,
     private router: Router
   ) {
-    if (this.avRoute.snapshot.params.id) {
-      this.employeeId = this.avRoute.snapshot.params.id;
-    }
+    this.cityList$ = this.employeeService.getCityList();
 
     this.employeeForm = this.fb.group({
       employeeId: 0,
@@ -38,7 +39,20 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchCityList();
+    // A better reactive approach
+
+    // this.avRoute.paramMap
+    //   .pipe(
+    //     switchMap((params: Params) => {
+    //       this.employeeId = params.get('employeeId');
+    //       return this.employeeService.getEmployeeById(this.employeeId);
+    //     })
+    //   )
+    //   .subscribe((response: Employee) => this.employeeForm.setValue(response));
+
+    this.avRoute.paramMap.subscribe((params: Params) => {
+      this.employeeId = params.get('employeeId');
+    });
 
     if (this.employeeId > 0) {
       this.title = 'Edit';
@@ -61,27 +75,21 @@ export class AddEmployeeComponent implements OnInit {
       return;
     }
 
-    if (this.title === 'Create') {
-      this.addEmployee();
-    } else if (this.title === 'Edit') {
+    if (this.employeeId > 0) {
       this.updateEmployee();
+    } else {
+      this.addEmployee();
     }
   }
 
   cancel(): void {
-    this.router.navigate(['/fetch-employee']);
-  }
-
-  private fetchCityList(): void {
-    this.employeeService
-      .getCityList()
-      .subscribe((data: City[]) => (this.cityList = data));
+    this.navigateToFetchEmployee();
   }
 
   private addEmployee(): void {
     this.employeeService.saveEmployee(this.employeeForm.value).subscribe(
       () => {
-        this.router.navigate(['/fetch-employee']);
+        this.navigateToFetchEmployee();
       },
       (error) => console.error(error)
     );
@@ -90,9 +98,13 @@ export class AddEmployeeComponent implements OnInit {
   private updateEmployee(): void {
     this.employeeService.updateEmployee(this.employeeForm.value).subscribe(
       () => {
-        this.router.navigate(['/fetch-employee']);
+        this.navigateToFetchEmployee();
       },
       (error) => console.error(error)
     );
+  }
+
+  private navigateToFetchEmployee() {
+    this.router.navigate(['/fetch-employee']);
   }
 }

@@ -23,9 +23,10 @@ namespace ngNetCore.Controllers
         }
 
         [HttpPost]
-        public int Post([FromBody] Employee employee)
+        public IActionResult Post(Employee employee)
         {
-            return objemployee.AddEmployee(employee);
+            objemployee.AddEmployee(employee);
+            return Ok();
         }
 
         [HttpGet("{id}")]
@@ -35,15 +36,17 @@ namespace ngNetCore.Controllers
         }
 
         [HttpPut]
-        public int Put([FromBody] Employee employee)
+        public IActionResult Put(Employee employee)
         {
-            return objemployee.UpdateEmployee(employee);
+            objemployee.UpdateEmployee(employee);
+            return Ok();
         }
 
-        [HttpDelete("{id}")]
-        public int Delete(int id)
+        [HttpDelete("{employeeId}")]
+        public IActionResult Delete(int employeeId)
         {
-            return objemployee.DeleteEmployee(id);
+            objemployee.DeleteEmployee(employeeId);
+            return Ok();
         }
 
         [HttpGet]
